@@ -4,6 +4,9 @@ import com.rest.api_tickets.dto.request.TicketRequestDTO;
 import com.rest.api_tickets.dto.response.TicketResponseDTO;
 import com.rest.api_tickets.model.Status;
 import com.rest.api_tickets.service.impl.TicketService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -30,6 +33,11 @@ public class TicketController {
      * @param requestDTO Datos del ticket a crear.
      * @return Ticket creado en formato DTO.
      */
+    @Operation(summary = "Crear un ticket", description = "Crea un nuevo ticket con los datos proporcionados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Ticket creado exitosamente"),
+            @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
+    })
     @PostMapping(value = "ticket")
     public ResponseEntity<TicketResponseDTO> createTicket(@Valid @RequestBody TicketRequestDTO requestDTO) {
         TicketResponseDTO responseDTO = ticketService.createTicket(requestDTO);
@@ -42,6 +50,11 @@ public class TicketController {
      * @param id ID del ticket a buscar.
      * @return Ticket encontrado en formato DTO.
      */
+    @Operation(summary = "Obtener un ticket por ID", description = "Recupera un ticket específico por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ticket encontrado"),
+            @ApiResponse(responseCode = "404", description = "Ticket no encontrado")
+    })
     @GetMapping(value = "ticket/{id}")
     public ResponseEntity<TicketResponseDTO> getTicketById(@PathVariable Long id) {
         TicketResponseDTO responseDTO = ticketService.getTicketById(id);
@@ -53,6 +66,10 @@ public class TicketController {
      *
      * @return Lista de tickets en formato DTO.
      */
+    @Operation(summary = "Obtener todos los tickets", description = "Recupera una lista de todos los tickets")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de tickets recuperada exitosamente")
+    })
     @GetMapping(value = "tickets")
     public ResponseEntity<List<TicketResponseDTO>> getAllTickets() {
         List<TicketResponseDTO> responseDTOs = ticketService.getAllTickets();
@@ -66,6 +83,12 @@ public class TicketController {
      * @param requestDTO Datos actualizados del ticket.
      * @return Ticket actualizado en formato DTO.
      */
+    @Operation(summary = "Actualizar un ticket", description = "Actualiza un ticket existente con los datos proporcionados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ticket actualizado exitosamente"),
+            @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos"),
+            @ApiResponse(responseCode = "404", description = "Ticket no encontrado")
+    })
     @PutMapping("ticket/{id}")
     public ResponseEntity<TicketResponseDTO> updateTicket(
             @PathVariable Long id,
@@ -80,6 +103,11 @@ public class TicketController {
      * @param id ID del ticket a eliminar.
      * @return Respuesta vacía con código HTTP 204 (No Content).
      */
+    @Operation(summary = "Eliminar un ticket", description = "Elimina un ticket por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Ticket eliminado exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Ticket no encontrado")
+    })
     @DeleteMapping("ticket/{id}")
     public ResponseEntity<Void> deleteTicket(@PathVariable Long id) {
         ticketService.deleteTicket(id);
@@ -94,6 +122,10 @@ public class TicketController {
      * @param size   Tamaño de la página (por defecto 10).
      * @return Página de tickets en formato DTO.
      */
+    @Operation(summary = "Obtener tickets paginados y filtrados", description = "Recupera una página de tickets, opcionalmente filtrados por estatus")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Página de tickets recuperada exitosamente")
+    })
     @GetMapping("tickets/filtered")
     public ResponseEntity<Page<TicketResponseDTO>> getAllTickets(
             @RequestParam(required = false) Status status,

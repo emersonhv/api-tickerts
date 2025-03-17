@@ -31,14 +31,19 @@ Este es un proyecto de una API RESTful desarrollada en **Java** con **Spring Boo
 
 ## Instalación y Configuración
 
-1. **Genera el .jar en IntelliJ**:
-
-2. **Crea imagen del proyecto spring boot**:
-    ```bash
-    docker build -t api-tickets:1.0 .
-3. **Monta las imagenes del proyecto y la base de datos**
-    ```bash
-    docker-compose build
-4. **Crea los contenedores correspondientes**
-    ```bash
-    docker-compose up
+1. **Clonar el repositorio**
+   ```bash
+   git clone https://github.com/emersonhv/api-tickerts
+2. **Crear .jar con IntelliJ o por maven consola**
+   ```bash
+   cd ruta/a/tu/proyecto
+   ./mvnw clean package
+3. **Crea imagen del proyecto spring boot**
+   ```bash
+   docker build -t api-tickets:1.0 .
+4. **Monta las imagenes del proyecto y la base de datos**
+   ```bash
+   docker-compose build
+5. **Crea los contenedores correspondientes**
+   ```bash
+   docker-compose up
